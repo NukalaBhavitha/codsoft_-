@@ -1,0 +1,59 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class NumberGuessingGame {
+
+    // Method to run the guessing game
+    public static void playGame() {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        int attemptsLimit = 10; // Max attempts allowed per round
+        int score = 0; // To keep track of user's score
+        boolean playAgain;
+
+        do {
+            int numberToGuess = random.nextInt(100) + 1; // Random number between 1 and 100
+            int attempts = 0;
+            boolean hasGuessedCorrectly = false;
+
+            System.out.println("I'm thinking of a number between 1 and 100.");
+            System.out.println("You have " + attemptsLimit + " attempts to guess it!");
+
+            // Loop for guessing attempts
+            while (attempts < attemptsLimit && !hasGuessedCorrectly) {
+                System.out.print("Enter your guess: ");
+                int userGuess = scanner.nextInt();
+                attempts++;
+
+                // Check user's guess and provide feedback
+                if (userGuess == numberToGuess) {
+                    System.out.println("Congratulations! You guessed the number in " + attempts + " attempts.");
+                    hasGuessedCorrectly = true;
+                    score += (attemptsLimit - attempts + 1); // Add score based on remaining attempts
+                } else if (userGuess < numberToGuess) {
+                    System.out.println("Too low! Try again.");
+                } else {
+                    System.out.println("Too high! Try again.");
+                }
+            }
+
+            if (!hasGuessedCorrectly) {
+                System.out.println("Sorry! You've run out of attempts. The correct number was " + numberToGuess + ".");
+            }
+
+            // Ask the user if they want to play another round
+            System.out.print("Do you want to play again? (yes/no): ");
+            String response = scanner.next();
+            playAgain = response.equalsIgnoreCase("yes");
+
+        } while (playAgain);
+
+        // Display the user's final score after all rounds
+        System.out.println("Game over! Your final score is: " + score);
+        scanner.close();
+    }
+
+    public static void main(String[] args) {
+        playGame(); // Start the game
+    }
+}
